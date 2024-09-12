@@ -1,11 +1,11 @@
 class RecintosZoo {
     constructor() {
         this.recintos = [
-            { numero: 1, bioma: ["savana"], tamanhoTotal: 10, animais: [{ especie: "macaco", quantidade: 3 }] },
-            { numero: 2, bioma: ["floresta"], tamanhoTotal: 5, animais: [] },
-            { numero: 3, bioma: ["savana", "rio"], tamanhoTotal: 7, animais: [{ especie: "gazela", quantidade: 1 }] },
-            { numero: 4, bioma: ["rio"], tamanhoTotal: 8, animais: [] },
-            { numero: 5, bioma: ["savana"], tamanhoTotal: 9, animais: [{ especie: "leao", quantidade: 1 }] },
+            { numero: 1, bioma: "savana", tamanhoTotal: 10, animais: [{ especie: "macaco", quantidade: 3 }] },
+            { numero: 2, bioma: "floresta", tamanhoTotal: 5, animais: [] },
+            { numero: 3, bioma: "savana e rio", tamanhoTotal: 7, animais: [{ especie: "gazela", quantidade: 1 }] },
+            { numero: 4, bioma: "rio", tamanhoTotal: 8, animais: [] },
+            { numero: 5, bioma: "savana", tamanhoTotal: 9, animais: [{ especie: "leao", quantidade: 1 }] }
         ];
 
         this.animais = {
@@ -35,11 +35,13 @@ class RecintosZoo {
         console.log(`Iniciando análise para ${quantidade} ${animal}(s).`);
 
         this.recintos.forEach((recinto) => {
-            console.log(`Verificando Recinto ${recinto.numero} com bioma(s): ${recinto.bioma.join(', ')}`);
-            console.log(`Biomas do animal: ${biomas.join(', ')}`);
+            // verifica se é array 
+            const recintoBiomas = recinto.bioma.includes(' e ') ? recinto.bioma.split(' e ') : [recinto.bioma];
+
+            console.log(`Verificando Recinto ${recinto.numero} com bioma(s): ${recintoBiomas.join(', ')}.`);
 
             // Verifica se algum bioma do recinto é compatível com os biomas do animal
-            if (biomas.some(b => recinto.bioma.includes(b))) {
+            if (biomas.some(b => recintoBiomas.includes(b))) {
                 let espacoOcupado = 0;
                 let temCarnivoro = false;
                 let maisDeUmaEspecie = false;
@@ -54,6 +56,7 @@ class RecintosZoo {
                 });
 
                 let espacoDisponivel = recinto.tamanhoTotal - espacoOcupado;
+
                 console.log(`Recinto ${recinto.numero}: espaçoOcupado=${espacoOcupado}, espacoDisponivel=${espacoDisponivel}.`);
 
                 // Reduz o espaço disponível se houver mais de uma espécie
@@ -64,7 +67,7 @@ class RecintosZoo {
 
                 // Verifica se o recinto é viável
                 if (!temCarnivoro && espacoDisponivel >= tamanhoTotalNovoGrupo) {
-                    if (animal.toLowerCase() === "hipopotamo" && maisDeUmaEspecie && !recinto.bioma.includes("savana") && !recinto.bioma.includes("rio")) {
+                    if (animal.toLowerCase() === "hipopotamo" && maisDeUmaEspecie && !recintoBiomas.includes("savana") && !recintoBiomas.includes("rio")) {
                         console.log(`Recinto ${recinto.numero} rejeitado: Hipopótamo e mais de uma espécie fora da savana e rio.`);
                         return;
                     }

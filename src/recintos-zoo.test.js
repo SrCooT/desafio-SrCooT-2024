@@ -23,7 +23,7 @@ describe('Recintos do Zoologico', () => {
     test('Deve encontrar recinto para 1 crocodilo', () => {
         const resultado = new RecintosZoo().analisaRecintos('CROCODILO', 1);
         expect(resultado.erro).toBeFalsy();
-        expect(resultado.recintosViaveis[0]).toBe('Recinto 4 (espaço livre: 8 total: 8)');
+        expect(resultado.recintosViaveis[0]).toBe('Recinto 4 (espaço livre: 5 total: 8)');
         expect(resultado.recintosViaveis.length).toBe(1);
     });
 
@@ -38,4 +38,3 @@ describe('Recintos do Zoologico', () => {
     });
 
 });
-
